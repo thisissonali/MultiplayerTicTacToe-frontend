@@ -1,0 +1,33 @@
+.container{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.grid{
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 600px;
+}
+.cells{
+  background-color: #b0eacd;
+  border: 2px solid #f9fcfb;
+  width: 200px;
+  height: 200px;
+  font-size: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.result{
+  width: 100vh;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 100px;
+  color: #FA7070;
+  background-color: #C6EBC5;
+  box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 8px 6px 20px 5px rgba(0, 0, 0, 0.19);
+}
