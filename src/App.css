@@ -1,6 +1,7 @@
 .container{
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -8,6 +9,16 @@
   display: flex;
   flex-wrap: wrap;
   max-width: 600px;
+}
+.play-agn{  
+   margin-top: 50px;
+   padding: 10px;
+   width: 150px;
+   height: 50px;
+   border: 2px solid black;
+   border-radius: 50px;
+   background-color: rgb(141, 212, 242);
+   
 }
 .cells{
   background-color: #b0eacd;
@@ -30,4 +41,14 @@
   color: #FA7070;
   background-color: #C6EBC5;
   box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 8px 6px 20px 5px rgba(0, 0, 0, 0.19);
+}
+.outer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.chance{
+  font-size: 50px;
+  margin: 20px;
+  padding: 15px;
 }
