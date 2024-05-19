@@ -4,13 +4,15 @@ import { io } from "socket.io-client";
 import "./App.css";
 
 const Home = () => {
-  const navigate = useNavigate();  
-  const [grid, setGrid] = useState(Array(9).fill(""));
-  const [Xchance, SetXChance] = useState(true); //if true then chance is of X otherwise 0
-  const [winner, setWinner] = useState("");
+  const navigate = useNavigate();
+  const [dataa, setDataa] = useState({
+    gridVal: [],
+    chance: true,
+    connecIdsArr: [],
+    winner: '',
+  });
   const [activeChanceBgColorX, setBgColorX] = useState("white");
   const [activeChanceBgColor0, setBgColor0] = useState("white");
-  const [connectedSockets, setConnectedSockets] = useState([]);
 
   const socket = useMemo(() => io("http://localhost:8000"), []);
 
@@ -18,19 +20,13 @@ const Home = () => {
     socket.on("connect", () => {
       console.log(socket.id);
     });
-    socket.on("grid-manip", (grid) => {
-      setGrid(grid);
+
+    socket.on("data", (dataa) => {
+      console.log(dataa["room1"]);
+      setDataa(dataa["room1"]);
     });
-    socket.on("chance-event", (Xchance) => {
-      SetXChance(Xchance);
-    });
-    socket.on("winner-event", (winner) => {
-      setWinner(winner);
-    });
-    socket.on("connected-sockets", (connecIdsArr) => {
-      setConnectedSockets(connecIdsArr);
-    });
-    if (Xchance) {
+
+    if (dataa.chance) {
       setBgColorX("red");
       setBgColor0("white");
     } else {
@@ -39,15 +35,9 @@ const Home = () => {
     }
     return () => {
       socket.off("connect");
-      socket.off("temp");
-      socket.off("room-event");
-      socket.off("grid-manip");
-      socket.off("chance-event");
-      socket.off("winner-event");
-      socket.off("msgg");
-      socket.off("connected-sockets");
+      socket.off("data");
     };
-  }, [socket, Xchance]);
+  }, [socket, dataa]);
 
   const isDraw = (grid, winner) => {
     if (winner) {
@@ -56,31 +46,35 @@ const Home = () => {
     const isGridFilled = grid.every((cell) => cell !== "");
     return isGridFilled;
   };
+
   const handleClick = (index) => {
     socket.emit("click-event", index);
   };
-  const handlePlayAgainClick = () =>{
-    setGrid(Array(9).fill(""));
-    SetXChance(true);
-    setWinner("");
+  const handlePlayAgainClick = () => {
+    setDataa({
+      gridVal: Array(9).fill(""),
+      chance: true,
+      connecIdsArr: dataa.connecIdsArr,
+      winner: "",
+    });
     navigate("/");
-  }
+  };
   return (
     <div className="container">
-      {!winner && !isDraw(grid, winner) ? (
-        Xchance ? (
-          connectedSockets.length > 0 &&
-          socket.id === connectedSockets[0] && <h1>Your Turn</h1>
+      {!dataa.winner && !isDraw(dataa.gridVal, dataa.winner) ? (
+        dataa.chance ? (
+          dataa.connecIdsArr.length > 0 &&
+          socket.id === dataa.connecIdsArr[0] && <h1>Your Turn</h1>
         ) : (
-          connectedSockets.length > 0 &&
-          socket.id === connectedSockets[1] && <h1>Your Turn</h1>
+          dataa.connecIdsArr.length > 0 &&
+          socket.id === dataa.connecIdsArr[1] && <h1>Your Turn</h1>
         )
       ) : (
         <h1></h1>
       )}
 
       <div className="outer">
-        {!winner && !isDraw(grid, winner) && (
+        {!dataa.winner && !isDraw(dataa.gridVal, dataa.winner) && (
           <div
             className="chance"
             style={{ backgroundColor: activeChanceBgColorX }}
@@ -89,12 +83,12 @@ const Home = () => {
           </div>
         )}
         <div className="grid">
-          {winner ? (
-            <div className="result">{`${winner} wins`}</div>
-          ) : isDraw(grid, winner) ? (
+          {dataa.winner ? (
+            <div className="result">{`${dataa.winner} wins`}</div>
+          ) : isDraw(dataa.gridVal  , dataa.winner) ? (
             <div className="result">It's a draw!</div>
           ) : (
-            grid.map((cell, index) => (
+            dataa.gridVal.map((cell, index) => (
               <button
                 key={index}
                 className="cells"
@@ -105,7 +99,7 @@ const Home = () => {
             ))
           )}
         </div>
-        {!winner && !isDraw(grid, winner) && (
+        {!dataa.winner && !isDraw(dataa.gridVal, dataa.winner) && (
           <div
             className="chance"
             style={{ backgroundColor: activeChanceBgColor0 }}
@@ -114,7 +108,7 @@ const Home = () => {
           </div>
         )}
       </div>
-      {winner || isDraw(grid, winner) ? (
+      {dataa.winner || isDraw(dataa.gridVal, dataa.winner) ? (
         <button onClick={() => handlePlayAgainClick()} className="play-agn">
           Play Again
         </button>
