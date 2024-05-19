@@ -14,7 +14,7 @@ const Home = () => {
   const [activeChanceBgColorX, setBgColorX] = useState("white");
   const [activeChanceBgColor0, setBgColor0] = useState("white");
 
-  const socket = useMemo(() => io("http://localhost:8000"), []);
+  const socket = useMemo(() => io(import.meta.env.VITE_SOCKET_URL || '/'), []);
 
   useEffect(() => {
     socket.on("connect", () => {
