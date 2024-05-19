@@ -18,14 +18,7 @@ const Home = () => {
     socket.on("connect", () => {
       console.log(socket.id);
     });
-    socket.on("temp", (message) => {
-      console.log(message);
-    });
-    socket.on("room-event", (message) => {
-      console.log(message);
-    });
     socket.on("grid-manip", (grid) => {
-      console.log("hey",grid);
       setGrid(grid);
     });
     socket.on("chance-event", (Xchance) => {
