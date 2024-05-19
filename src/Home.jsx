@@ -40,7 +40,7 @@ const Home = () => {
   }, [socket, dataa]);
 
   const isDraw = (grid, winner) => {
-    if (winner) {
+    if (winner || !grid) {
       return false;
     }
     const isGridFilled = grid.every((cell) => cell !== "");
