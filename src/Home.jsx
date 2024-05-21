@@ -21,8 +21,9 @@ useEffect(() => {
     console.log(socket.id);
   });
 
-  socket.on("data", (data) => {
-    setDataa(data["room1"]);
+  socket.on("data", (data, newRoom) => {
+    console.log(data[newRoom]);
+    setDataa(data[newRoom]);
   });
 
   if (dataa.chance) {
