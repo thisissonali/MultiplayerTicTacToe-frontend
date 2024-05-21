@@ -6,46 +6,56 @@ import "./App.css";
 const Home = () => {
   const navigate = useNavigate();
   const [dataa, setDataa] = useState({
-    gridVal: [],
+    gridVal: Array(9).fill(""),
     chance: true,
     connecIdsArr: [],
-    winner: '',
+    winner: "",
   });
   const [activeChanceBgColorX, setBgColorX] = useState("white");
   const [activeChanceBgColor0, setBgColor0] = useState("white");
 
   const socket = useMemo(() => io(import.meta.env.VITE_SOCKET_URL || '/'), []);
 
-  useEffect(() => {
-    socket.on("connect", () => {
-      console.log(socket.id);
+useEffect(() => {
+  socket.on("connect", () => {
+    console.log(socket.id);
+    socket.on("data", (data) => {
+      console.log(data["room1"]);
+      setDataa(data["room1"]);
     });
-
-    socket.on("data", (dataa) => {
-      console.log(dataa["room1"]);
-      setDataa(dataa["room1"]);
-    });
-
-    if (dataa.chance) {
-      setBgColorX("red");
-      setBgColor0("white");
-    } else {
-      setBgColorX("white");
-      setBgColor0("red");
+    console.log("hey", dataa.winner);
+    if (dataa.gridVal.length === 9) {
+      console.log(isDraw(dataa.gridVal, dataa.winner));
     }
-    return () => {
-      socket.off("connect");
-      socket.off("data");
-    };
-  }, [socket, dataa]);
+  });
 
-  const isDraw = (grid, winner) => {
-    if (winner || !grid) {
-      return false;
-    }
-    const isGridFilled = grid.every((cell) => cell !== "");
-    return isGridFilled;
+  socket.on("data", (data) => {
+    console.log(data["room1"]);
+    setDataa(data["room1"]);
+  });
+
+  if (dataa.chance) {
+    setBgColorX("red");
+    setBgColor0("white");
+  } else {
+    setBgColorX("white");
+    setBgColor0("red");
+  }
+
+  return () => {
+    socket.off("connect");
+    socket.off("data");
   };
+}, [socket, dataa.chance]);
+
+
+const isDraw = (grid, winner) => {
+  if (winner|| !grid || grid.length !== 9) {
+    return false;
+  }
+  const isGridFilled = grid.every((cell) => cell !== "");
+  return isGridFilled;
+};
 
   const handleClick = (index) => {
     socket.emit("click-event", index);
@@ -61,7 +71,8 @@ const Home = () => {
   };
   return (
     <div className="container">
-      {!dataa.winner && !isDraw(dataa.gridVal, dataa.winner) ? (
+      {!dataa.winner &&
+      !isDraw(dataa.gridVal, dataa.winner) ? (
         dataa.chance ? (
           dataa.connecIdsArr.length > 0 &&
           socket.id === dataa.connecIdsArr[0] && <h1>Your Turn</h1>
@@ -74,18 +85,19 @@ const Home = () => {
       )}
 
       <div className="outer">
-        {!dataa.winner && !isDraw(dataa.gridVal, dataa.winner) && (
-          <div
-            className="chance"
-            style={{ backgroundColor: activeChanceBgColorX }}
-          >
-            X
-          </div>
-        )}
+        {!dataa.winner &&
+          !isDraw(dataa.gridVal, dataa.winner) && (
+            <div
+              className="chance"
+              style={{ backgroundColor: activeChanceBgColorX }}
+            >
+              X
+            </div>
+          )}
         <div className="grid">
           {dataa.winner ? (
             <div className="result">{`${dataa.winner} wins`}</div>
-          ) : isDraw(dataa.gridVal  , dataa.winner) ? (
+          ) : isDraw(dataa.gridVal, dataa.winner) ? (
             <div className="result">It's a draw!</div>
           ) : (
             dataa.gridVal.map((cell, index) => (
@@ -99,16 +111,17 @@ const Home = () => {
             ))
           )}
         </div>
-        {!dataa.winner && !isDraw(dataa.gridVal, dataa.winner) && (
-          <div
-            className="chance"
-            style={{ backgroundColor: activeChanceBgColor0 }}
-          >
-            0
-          </div>
-        )}
+        {!dataa.winner &&
+          !isDraw(dataa.gridVal, dataa.winner) && (
+            <div
+              className="chance"
+              style={{ backgroundColor: activeChanceBgColor0 }}
+            >
+              0
+            </div>
+          )}
       </div>
-      {dataa.winner || isDraw(dataa.gridVal, dataa.winner) ? (
+      {(dataa.winner || isDraw(dataa.gridVal, dataa.winner)) ? (
         <button onClick={() => handlePlayAgainClick()} className="play-agn">
           Play Again
         </button>
@@ -117,6 +130,7 @@ const Home = () => {
       )}
     </div>
   );
+
 };
 
 export default Home;
