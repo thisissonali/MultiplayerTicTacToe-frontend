@@ -19,18 +19,9 @@ const Home = () => {
 useEffect(() => {
   socket.on("connect", () => {
     console.log(socket.id);
-    socket.on("data", (data) => {
-      console.log(data["room1"]);
-      setDataa(data["room1"]);
-    });
-    console.log("hey", dataa.winner);
-    if (dataa.gridVal.length === 9) {
-      console.log(isDraw(dataa.gridVal, dataa.winner));
-    }
   });
 
   socket.on("data", (data) => {
-    console.log(data["room1"]);
     setDataa(data["room1"]);
   });
 
