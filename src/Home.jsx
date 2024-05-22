@@ -25,6 +25,10 @@ useEffect(() => {
     console.log(data[newRoom]);
     setDataa(data[newRoom]);
   });
+  socket.on("new-room", (newRoomData) => {
+    setDataa(newRoomData);
+    navigate("/");
+  });
 
   if (dataa.chance) {
     setBgColorX("red");
@@ -37,6 +41,7 @@ useEffect(() => {
   return () => {
     socket.off("connect");
     socket.off("data");
+    socket.off("new-room");
   };
 }, [socket, dataa.chance]);
 
@@ -53,13 +58,7 @@ const isDraw = (grid, winner) => {
     socket.emit("click-event", index);
   };
   const handlePlayAgainClick = () => {
-    setDataa({
-      gridVal: Array(9).fill(""),
-      chance: true,
-      connecIdsArr: dataa.connecIdsArr,
-      winner: "",
-    });
-    navigate("/");
+    socket.emit("request-new-room", socket.id);
   };
   return (
     <div className="container">
