@@ -26,11 +26,6 @@ const Home = () => {
       setDataa(data[newRoom]);
     });
 
-    socket.on("new-room", (newRoomData) => {
-      setDataa(newRoomData);
-      navigate("/");
-    });
-
     if (dataa.chance) {
       setBgColorX("red");
       setBgColor0("white");
@@ -42,7 +37,6 @@ const Home = () => {
     return () => {
       socket.off("connect");
       socket.off("data");
-      socket.off("new-room");
     };
   }, [socket, dataa.chance]);
 
@@ -59,7 +53,7 @@ const Home = () => {
   };
 
   const handlePlayAgainClick = () => {
-    socket.emit("request-new-room", socket.id);
+    socket.emit("request-new-room");
   };
 
   return (
