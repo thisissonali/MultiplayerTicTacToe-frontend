@@ -1,16 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import "./App.css";
 
 const Home = () => {
-  const navigate = useNavigate();
-  const [dataa, setDataa] = useState({
-    gridVal: Array(9).fill(""),
-    chance: true,
-    connecIdsArr: [],
-    winner: "",
-  });
+  const [dataa, setDataa] = useState(null);
   const [activeChanceBgColorX, setBgColorX] = useState("white");
   const [activeChanceBgColor0, setBgColor0] = useState("white");
 
@@ -26,10 +19,10 @@ const Home = () => {
       setDataa(data[newRoom]);
     });
 
-    if (dataa.chance) {
+    if (dataa !== null && dataa.chance) {
       setBgColorX("red");
       setBgColor0("white");
-    } else {
+    } else if (dataa !== null && !dataa.chance) {
       setBgColorX("white");
       setBgColor0("red");
     }
@@ -38,7 +31,7 @@ const Home = () => {
       socket.off("connect");
       socket.off("data");
     };
-  }, [socket, dataa.chance]);
+  }, [socket, dataa]);
 
   const isDraw = (grid, winner) => {
     if (winner || !grid || grid.length !== 9) {
@@ -58,7 +51,7 @@ const Home = () => {
 
   return (
     <div className="container">
-      {dataa.connecIdsArr.length === 0 || dataa.connecIdsArr.length === 1 ? (
+      {dataa  === null ? (
         <div className="msgg">
           <h1 className="msg-h1">You are alone in the room</h1>
           <div>Waiting for another player to join...</div>
