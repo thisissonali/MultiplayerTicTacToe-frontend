@@ -51,7 +51,16 @@ const Home = () => {
 
   return (
     <div className="container">
-      {dataa  === null ? (
+      <div className="chance-class">
+        {dataa && !dataa.winner && socket.id === dataa.connecIdsArr[0] && (
+          <div className="">You are : X</div>
+        )}
+        {dataa && !dataa.winner && socket.id === dataa.connecIdsArr[1] && (
+          <div className="">You are : 0</div>
+        )}
+        <></>
+      </div>
+      {dataa === null ? (
         <div className="msgg">
           <h1 className="msg-h1">You are alone in the room</h1>
           <div>Waiting for another player to join...</div>
@@ -60,9 +69,19 @@ const Home = () => {
         <div className="outer-1">
           {!dataa.winner && !isDraw(dataa.gridVal, dataa.winner) ? (
             dataa.chance ? (
-              socket.id === dataa.connecIdsArr[0] && <h1>Your Turn</h1>
+              <>
+                {socket.id === dataa.connecIdsArr[0] && <h1>Your Turn</h1>}
+                {socket.id === dataa.connecIdsArr[1] && (
+                  <h1>X Is Playing Its Turn</h1>
+                )}
+              </>
             ) : (
-              socket.id === dataa.connecIdsArr[1] && <h1>Your Turn</h1>
+              <>
+                {socket.id === dataa.connecIdsArr[0] && (
+                  <h1>0 Is Playing Its Turn</h1>
+                )}
+                {socket.id === dataa.connecIdsArr[1] && <h1>Your Turn</h1>}
+              </>
             )
           ) : (
             <h1></h1>
