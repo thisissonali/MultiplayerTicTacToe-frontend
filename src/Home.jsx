@@ -4,8 +4,6 @@ import "./App.css";
 
 const Home = () => {
   const [dataa, setDataa] = useState(null);
-  const [activeChanceBgColorX, setBgColorX] = useState("white");
-  const [activeChanceBgColor0, setBgColor0] = useState("white");
 
   const socket = useMemo(() => io(import.meta.env.VITE_SOCKET_URL || "/"), []);
 
@@ -18,15 +16,6 @@ const Home = () => {
       console.log(data[newRoom]);
       setDataa(data[newRoom]);
     });
-
-    if (dataa !== null && dataa.chance) {
-      setBgColorX("red");
-      setBgColor0("white");
-    } else if (dataa !== null && !dataa.chance) {
-      setBgColorX("white");
-      setBgColor0("red");
-    }
-    console.log(dataa);
     return () => {
       socket.off("connect");
       socket.off("data");
@@ -50,52 +39,47 @@ const Home = () => {
   };
 
   return (
-    <div className="container">
+    <div className="outer-wrap">
       <div className="chance-class">
-        {dataa && !dataa.winner && socket.id === dataa.connecIdsArr[0] && (
-          <div className="">You are : X</div>
-        )}
-        {dataa && !dataa.winner && socket.id === dataa.connecIdsArr[1] && (
-          <div className="">You are : 0</div>
+        {dataa &&
+          !dataa.winner &&
+          !isDraw(dataa.gridVal, dataa.winner) &&
+          socket.id === dataa.connecIdsArr[0] && (
+            <div className="xorzero">You are : X</div>
+          )}
+        {dataa && !dataa.winner && !isDraw(dataa.gridVal, dataa.winner) && socket.id === dataa.connecIdsArr[1] && (
+          <div className="xorzero">You are : 0</div>
         )}
         <></>
       </div>
-      {dataa === null ? (
-        <div className="msgg">
-          <h1 className="msg-h1">You are alone in the room</h1>
-          <div>Waiting for another player to join...</div>
-        </div>
-      ) : (
-        <div className="outer-1">
-          {!dataa.winner && !isDraw(dataa.gridVal, dataa.winner) ? (
-            dataa.chance ? (
-              <>
-                {socket.id === dataa.connecIdsArr[0] && <h1>Your Turn</h1>}
-                {socket.id === dataa.connecIdsArr[1] && (
-                  <h1>X Is Playing Its Turn</h1>
-                )}
-              </>
+      <>
+        {dataa === null ? (
+          <div className="msgg">
+            <h1 className="msg-h1">You are alone in the room</h1>
+            <div>Waiting for another player to join...</div>
+          </div>
+        ) : (
+          <div className="outer-1">
+            {!dataa.winner && !isDraw(dataa.gridVal, dataa.winner) ? (
+              dataa.chance ? (
+                <>
+                  {socket.id === dataa.connecIdsArr[0] && <h1>Your Turn</h1>}
+                  {socket.id === dataa.connecIdsArr[1] && (
+                    <h1 className="turnClass">X Is Playing Its Turn</h1>
+                  )}
+                </>
+              ) : (
+                <>
+                  {socket.id === dataa.connecIdsArr[0] && (
+                    <h1 className="turnClass">0 Is Playing Its Turn</h1>
+                  )}
+                  {socket.id === dataa.connecIdsArr[1] && <h1>Your Turn</h1>}
+                </>
+              )
             ) : (
-              <>
-                {socket.id === dataa.connecIdsArr[0] && (
-                  <h1>0 Is Playing Its Turn</h1>
-                )}
-                {socket.id === dataa.connecIdsArr[1] && <h1>Your Turn</h1>}
-              </>
-            )
-          ) : (
-            <h1></h1>
-          )}
-
-          <div className="outer">
-            {!dataa.winner && !isDraw(dataa.gridVal, dataa.winner) && (
-              <div
-                className="chance"
-                style={{ backgroundColor: activeChanceBgColorX }}
-              >
-                X
-              </div>
+              <h1></h1>
             )}
+
             <div className="grid">
               {dataa.winner ? (
                 <div className="result">{`${dataa.winner} wins`}</div>
@@ -113,22 +97,17 @@ const Home = () => {
                 ))
               )}
             </div>
-            {!dataa.winner && !isDraw(dataa.gridVal, dataa.winner) && (
-              <div
-                className="chance"
-                style={{ backgroundColor: activeChanceBgColor0 }}
+            {(dataa.winner || isDraw(dataa.gridVal, dataa.winner)) && (
+              <button
+                onClick={() => handlePlayAgainClick()}
+                className="play-agn"
               >
-                0
-              </div>
+                Find New Match
+              </button>
             )}
           </div>
-          {(dataa.winner || isDraw(dataa.gridVal, dataa.winner)) && (
-            <button onClick={() => handlePlayAgainClick()} className="play-agn">
-              Find New Match
-            </button>
-          )}
-        </div>
-      )}
+        )}
+      </>
     </div>
   );
 };
