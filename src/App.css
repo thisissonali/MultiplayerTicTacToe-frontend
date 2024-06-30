@@ -61,7 +61,7 @@ body {
   box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 8px 6px 20px 5px rgba(0, 0, 0, 0.19);
 }
 .cells {
-  background-image: url('/public/BackgroundImage.jpg');
+  background-image: url('/BackgroundImage.jpg');
   background-repeat: no-repeat;
   border: none;
   width: 165px;
@@ -87,7 +87,7 @@ body {
   align-items: center;
   font-size: 100px;
   color: black;
-  background-image: url('/public/result.jpg');
+  background-image: url('/result.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 8px 6px 20px 5px rgba(0, 0, 0, 0.19);
