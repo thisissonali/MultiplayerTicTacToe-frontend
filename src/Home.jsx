@@ -47,16 +47,21 @@ const Home = () => {
           socket.id === dataa.connecIdsArr[0] && (
             <div className="xorzero">You are : X</div>
           )}
-        {dataa && !dataa.winner && !isDraw(dataa.gridVal, dataa.winner) && socket.id === dataa.connecIdsArr[1] && (
-          <div className="xorzero">You are : 0</div>
-        )}
+        {dataa &&
+          !dataa.winner &&
+          !isDraw(dataa.gridVal, dataa.winner) &&
+          socket.id === dataa.connecIdsArr[1] && (
+            <div className="xorzero">You are : 0</div>
+          )}
         <></>
       </div>
       <>
         {dataa === null ? (
-          <div className="msgg">
-            <h1 className="msg-h1">You are alone in the room</h1>
-            <div>Waiting for another player to join...</div>
+          <div className="outer-msg">
+            <div className="msgg">
+              <h1 className="msg-h1">You are alone in the room</h1>
+              <div>Waiting for another player to join...</div>
+            </div>
           </div>
         ) : (
           <div className="outer-1">
