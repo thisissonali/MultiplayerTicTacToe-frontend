@@ -53,7 +53,6 @@ const Home = () => {
           socket.id === dataa.connecIdsArr[1] && (
             <div className="xorzero">You are : 0</div>
           )}
-        <></>
       </div>
       <>
         {dataa === null ? (
@@ -68,7 +67,9 @@ const Home = () => {
             {!dataa.winner && !isDraw(dataa.gridVal, dataa.winner) ? (
               dataa.chance ? (
                 <>
-                  {socket.id === dataa.connecIdsArr[0] && <h1>Your Turn</h1>}
+                  {socket.id === dataa.connecIdsArr[0] && (
+                    <h1 className="yourturn">Your Turn</h1>
+                  )}
                   {socket.id === dataa.connecIdsArr[1] && (
                     <h1 className="turnClass">X Is Playing Its Turn</h1>
                   )}
@@ -78,7 +79,9 @@ const Home = () => {
                   {socket.id === dataa.connecIdsArr[0] && (
                     <h1 className="turnClass">0 Is Playing Its Turn</h1>
                   )}
-                  {socket.id === dataa.connecIdsArr[1] && <h1>Your Turn</h1>}
+                  {socket.id === dataa.connecIdsArr[1] && (
+                    <h1 className="yourturn">Your Turn</h1>
+                  )}
                 </>
               )
             ) : (
@@ -94,7 +97,9 @@ const Home = () => {
                 dataa.gridVal.map((cell, index) => (
                   <button
                     key={index}
-                    className="cells"
+                    className={`cells ${
+                      cell === "X" ? "cell-x" : cell === "0" ? "cell-o" : ""
+                    }`}
                     onClick={() => handleClick(index)}
                   >
                     {cell}

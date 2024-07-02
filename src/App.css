@@ -8,6 +8,17 @@ body {
   height: 100%;
   width: 100%;
 }
+.outer-wrap{
+  /* background-color: #9e481a; */
+  background-color: black;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
 .outer-msg{
   margin-top: -10px;
   width: 100%;
@@ -16,19 +27,14 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: black;
+  color: white;
 }
 .msgg{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-.outer-wrap{
-    /* background-color: #9e481a; */
-    background-color: #ea9567;
-    min-height: 100vh;
-    width: 100%;
-    justify-content: center;
 }
 .container{
   display: flex;
@@ -41,56 +47,61 @@ body {
 .play-agn{  
    margin-top: 50px;
    padding: 10px;
-   width: 190px;
-   height: 70px;
+   width: 150px;
+   height: 60px;
    border:none;
-   background-color: #f2c7b0;
-   font-size: 20px;
+   color: white;
+   background-color: #f13c2f;
+   font-size: 17px;
    border-radius: 5px;
-   box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 8px 6px 20px 5px rgba(0, 0, 0, 0.19);
-}
-.play-agn:hover{
-  background-color: #f13c2f;
-  color: white;
+  }
+
+  .play-agn:hover{
+    background-color: #f2c7b0;
+    color: black;
 }
 .grid {
   display: flex;
   flex-wrap: wrap;
-  max-width: 495px;
+  max-width: 465px;
   margin-top: 5px;
   box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 8px 6px 20px 5px rgba(0, 0, 0, 0.19);
 }
 .cells {
-  background-image: url('/BackgroundImage.jpg');
+  background-color: black;
   background-repeat: no-repeat;
   border: none;
-  width: 165px;
-  height: 165px;
+  width: 155px;
+  height: 155px;
   font-size: 80px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+.cell-x {
+  color: white;
+}
+
+.cell-o {
+  color: red;
+}
 .grid .cells:not(:nth-child(3n)) {
-  border-right: 5px solid black;
+  border-right: 5px solid white;
 }
 
 .grid .cells:nth-child(-n+6) {
-  border-bottom: 5px solid black;
+  border-bottom: 5px solid white;
 }
 .result{
   width: 100vh;
-  height: 50vh;
+  height: 12vh;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 100px;
-  color: black;
-  background-image: url('/result.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 8px 6px 20px 5px rgba(0, 0, 0, 0.19);
+  color: white;
+  background-color: black;
 }
 .outer{
   display: flex;
@@ -103,6 +114,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: white;
 }
 .chance{
   font-size: 50px;
@@ -121,7 +133,25 @@ body {
   display: flex;
   width: 100%;
   margin-bottom: 10px;
-  /* Make sure the container is wide enough */
+  position: fixed;
+    /* Add this line */
+    top: 0;
+    /* Add this line */
+    left: 0;
+    /* Add this line */
+    justify-content: left;
+    /* Center the text */
+    /* Optional: to match the background */
+    padding: 10px;
+    /* Optional: adjust padding if needed */
+    z-index: 1000;
+    /* Ensure it stays on top */
+}
+.yourturn{
+  margin-bottom: 30px;
+}
+.turnClass {
+  margin-bottom: 30px;
 }
 .xorzero{
   font-size: 40px;
@@ -129,12 +159,14 @@ body {
   height: 50%;
   margin-top: 5px;
   padding-left: 15px;
+  color: white;
 }
 /* media queries for responsiveness */
 
 @media only screen and (max-width: 640px){
   .xorzero {
       margin-top: 30px;
+      font-size: 30px;
   }
   .chance-class{
   align-items: center;
@@ -157,6 +189,7 @@ body {
   }
   .xorzero{
     margin-top: 50px;
+    font-size: 25px;
   }
   .grid {
     margin-top: 30px;
@@ -170,6 +203,7 @@ body {
   }
   .xorzero{
     margin-top: 55px;
+    font-size: 20px;
    }
   .grid {
     margin-top: 70px;
