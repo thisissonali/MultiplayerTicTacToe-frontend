@@ -209,4 +209,13 @@ body {
     margin-top: 70px;
     max-width: 240px;
   }
+  .result{
+    font-size: 50px;
+  }
+  .msg-h1{
+    font-size: 30px;
+  }
+  .msg-h2{
+    font-size: 15px;
+  }
 }

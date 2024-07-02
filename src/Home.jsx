@@ -20,7 +20,7 @@ const Home = () => {
       socket.off("connect");
       socket.off("data");
     };
-  }, [socket, dataa]);
+  }, [socket]);
 
   const isDraw = (grid, winner) => {
     if (winner || !grid || grid.length !== 9) {
@@ -59,7 +59,7 @@ const Home = () => {
           <div className="outer-msg">
             <div className="msgg">
               <h1 className="msg-h1">You are alone in the room</h1>
-              <div>Waiting for another player to join...</div>
+              <div className="msg-h2">Waiting for another player to join...</div>
             </div>
           </div>
         ) : (
